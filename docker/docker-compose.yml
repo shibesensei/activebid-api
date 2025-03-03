@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - clickhouse
+      - rabbitmq
+    environment:
+      - PGHOST=localhost
+      - PGUSER=kali
+      - PGPASSWORD=kali
+      - PGDATABASE=auction
+      - PGPORT=5432
+      - PGSCHEMA=test
+      - CLICKHOUSE_HOST=localhost
+      - CLICKHOUSE_PORT=8123
+      - CLICKHOUSE_USER=clickhouse_user
+      - CLICKHOUSE_PASSWORD=kali
+      - RABBITMQ_URL=amqp://rabbitmq
+      - JWT_SECRET=your_jwt_secret
+      - JWT_EXPIRES_IN=1h
+  postgres:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: kali
+      POSTGRES_PASSWORD: kali
+      POSTGRES_DB: auction
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  clickhouse:
+    image: yandex/clickhouse-server:latest
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+volumes:
+  pgdata:
