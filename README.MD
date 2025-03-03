@@ -6,7 +6,7 @@ ActiveBid API is a RESTful API for online auctions, developed using Node.js, Exp
 
 1. Cloning the repository
 
-git clone <your_repository_URL> activebid-api
+git clone https://github.com/shibesensei/activebid-api activebid-api
 cd activebid-api
 
 2. Installing dependencies
