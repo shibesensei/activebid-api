@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger');
 
 // Импорт middleware и роуты
 const loggerMiddleware = require('./middlewares/logger.middleware');
@@ -34,5 +36,8 @@ app.use('/api/bids', bidRoutes);
 
 // Глобальный обработчик ошибок
 app.use(errorMiddleware);
+
+//Подключение к Swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 module.exports = app;
