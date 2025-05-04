@@ -14,13 +14,17 @@ const pool = new Pool({
 
 // Инициализация ClickHouse
 const clickhouse = new ClickHouse({
-  url: `http://${process.env.CLICKHOUSE_HOST}`,
+  url: process.env.CLICKHOUSE_HOST,
   port: process.env.CLICKHOUSE_PORT,
   basicAuth: {
     username: process.env.CLICKHOUSE_USER,
     password: process.env.CLICKHOUSE_PASSWORD,
   },
-  isUseGzip: false,
+  debug: false,
+  format: 'json',
+  config: {
+    database: process.env.CLICKHOUSE_DATABASE,
+  }
 });
 
 module.exports = {

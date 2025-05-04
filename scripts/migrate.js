@@ -25,7 +25,8 @@ const createTables = async () => {
         email VARCHAR(100) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL,
         active BOOLEAN DEFAULT TRUE,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMPTZ(0) DEFAULT (NOW() AT TIME ZONE 'UTC')
+
       );
     `);
 
@@ -37,7 +38,8 @@ const createTables = async () => {
         phone VARCHAR(20),
         address VARCHAR(255),
         blocked BOOLEAN DEFAULT FALSE,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMPTZ(0) DEFAULT (NOW() AT TIME ZONE 'UTC')
+
       );
     `);
 
@@ -50,7 +52,8 @@ const createTables = async () => {
         price DECIMAL(10,2) NOT NULL,
         status test.product_status DEFAULT 'active',
         blocked BOOLEAN DEFAULT FALSE,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMPTZ(0) DEFAULT (NOW() AT TIME ZONE 'UTC')
+
       );
     `);
 
@@ -59,10 +62,11 @@ const createTables = async () => {
       CREATE TABLE IF NOT EXISTS ${process.env.PGSCHEMA}.auctions (
         id SERIAL PRIMARY KEY,
         product_id INTEGER REFERENCES ${process.env.PGSCHEMA}.products(id),
-        start_time TIMESTAMP NOT NULL,
-        end_time TIMESTAMP NOT NULL,
+        start_time TIMESTAMPTZ(0) DEFAULT (NOW() AT TIME ZONE 'UTC'),
+        end_time TIMESTAMPTZ(0) DEFAULT (NOW() AT TIME ZONE 'UTC'),
         blocked BOOLEAN DEFAULT FALSE,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMPTZ(0) DEFAULT (NOW() AT TIME ZONE 'UTC')
+
       );
     `);
 
@@ -73,7 +77,8 @@ const createTables = async () => {
         auction_id INTEGER REFERENCES ${process.env.PGSCHEMA}.auctions(id),
         user_id INTEGER REFERENCES ${process.env.PGSCHEMA}.users(id),
         amount DECIMAL(10,2) NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMPTZ(0) DEFAULT (NOW() AT TIME ZONE 'UTC')
+
       );
     `);
 

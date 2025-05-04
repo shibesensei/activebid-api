@@ -2,7 +2,6 @@
 const productModel = require('../models/product.model');
 const clickhouseService = require('./clickhouse.service');
 const rabbitmqService = require('./rabbitmq.service');
-
 exports.createProduct = async (data) => {
   const product = await productModel.createProduct(data);
   rabbitmqService.sendMessage('product.created', product);
